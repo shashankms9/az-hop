@@ -9,8 +9,8 @@
   when: user.home is defined
 
 - name: init user context for {{user.name}}
-  command: ssh-keygen -t rsa -f ~/.ssh/id_rsa -q -N ""
-  become_user: '{{user.name}}'
+  command: sudo -u {{user.name}} ssh-keygen -t rsa -f {{user_home}}/.ssh/id_rsa -q -N ""
+#  become_user: '{{user.name}}'
   args: 
     creates: "{{user_home}}/.ssh/id_rsa"
 
