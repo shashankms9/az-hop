@@ -155,8 +155,8 @@ if [ ${user_type} == "user" ]; then
   unset ARM_CLIENT_ID
   unset ARM_CLIENT_SECRET
   unset ARM_USE_MSI
-  export TF_VAR_logged_user_objectId=$(az ad signed-in-user show --query id -o tsv)
-  logged_user_upn=$(az ad signed-in-user show --query userPrincipalName -o tsv)
+  logged_user_upn=$(az account show -o json| jq -r '.user.name')
+  export TF_VAR_logged_user_objectId=$(az ad user show --id $logged_user_upn --query objectId -o tsv)
   echo " - logged in Azure with User ${logged_user_upn}"
 else
   unset TF_VAR_logged_user_objectId
