@@ -140,7 +140,7 @@
       cd ${SLURM_SRC_DIR}/src/plugins/job_submit/cyclecloud/
       make > make_plugin.log
       cp .libs/job_submit_cyclecloud.so {{homedir_mountpoint}}/slurm/job_submit_cyclecloud.so
-    when: slurm_job_submit_plugin.stat.exists == False
+    when: slurm_job_submit_plugin.stat.exists == False or slurm_rpms.stat.exists == False
   when: build_rpms
 
 - name: Use CycleCloud pre-built SLURM RPMs
