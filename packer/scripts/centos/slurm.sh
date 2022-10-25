@@ -2,7 +2,7 @@
 # Based on: https://github.com/Azure/cyclecloud-slurm/blob/master/specs/default/cluster-init/files/00-build-slurm.sh
 set -e
 
-SLURM_VERSION=20.11.9
+SLURM_VERSION=22.05.5
 BUILD_DIR=/mnt/slurm
 mkdir -p $BUILD_DIR
 

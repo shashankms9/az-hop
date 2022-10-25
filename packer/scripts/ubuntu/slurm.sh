@@ -30,7 +30,7 @@ make -j install
 # Build SLURM
 #
 
-SLURM_VERSION=20.11.9
+SLURM_VERSION=22.05.5
 SLURM_FOLDER="slurm-${SLURM_VERSION}"
 SLURM_PKG="slurm-${SLURM_VERSION}.tar.bz2"
 DOWNLOAD_URL="https://download.schedmd.com/slurm"
