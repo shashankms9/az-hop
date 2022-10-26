@@ -73,7 +73,10 @@
 
   - name: install dependencies
     yum:
-      name: python3, python3-pip, rpm-build, readline-devel, pam-devel, perl-ExtUtils-MakeMaker, gcc, mariadb-devel, autoconf, http-parser-devel, json-c-devel
+      name: >
+        python3, python3-pip, rpm-build, readline-devel, pam-devel, 
+        perl-ExtUtils-MakeMaker, gcc, mariadb-devel, autoconf, 
+        http-parser-devel, json-c-devel
       lock_timeout : 180
 
   - name: extract slurm tarball version number
