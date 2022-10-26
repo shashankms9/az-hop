@@ -4,6 +4,11 @@
     state: present
     lock_timeout : 180
 
+- name: Clean up Pyxis build directory
+  file:
+    path: /mnt/resource/pyxis-{{pyxis_version}}
+    state: absent
+
 - name: Download Pyxis plugin
   unarchive:
     src: https://github.com/NVIDIA/pyxis/archive/refs/tags/v{{pyxis_version}}.tar.gz
