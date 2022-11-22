@@ -173,7 +173,7 @@ resource {{ vmname | replace('-', '_') }}Vm 'Microsoft.Compute/virtualMachines@2
           publicKeys: [
             {
               path: '/home/${adminUser}/.ssh/authorized_keys'
-              keyData: adminSshPublicKeys
+              keyData: adminSshPublicKey
             }
           ]
         }
