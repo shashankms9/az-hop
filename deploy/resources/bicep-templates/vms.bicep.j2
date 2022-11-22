@@ -4,6 +4,9 @@ resource {{ vm_name | replace('-', '_') }}ManagedIdentity 'Microsoft.ManagedIden
   name: '{{ vm_name }}-mi'
   location: location
 }
+
+output {{ vm_name | replace('-', '_') }}_mi_principal_id string = {{ vm_name | replace('-', '_') }}ManagedIdentity.properties.principalId
+
     {%- if 'roles' in vm.identity %}
       {%- for role in vm.identity.roles %}
 var {{ vm_name }}{{ role | replace('-', '_') }}Id = resourceId('microsoft.authorization/roleDefinitions', '{{ role }}')
@@ -150,7 +153,7 @@ resource {{ vmname | replace('-', '_') }}Vm 'Microsoft.Compute/virtualMachines@2
       computerName: '{{ vmname }}'
       adminUsername: adminUser
     {%- if 'run_deploy_script' in vm and vm.run_deploy_script == true %}
-      customData: base64(replace(loadTextContent('resources/install.sh'), '__INSERT_CONFIG_FILE__', loadTextContent('build.yml')))
+      customData: base64(replace(replace(loadTextContent('resources/install.sh'), '__INSERT_CONFIG_FILE__', loadTextContent('build.yml')), '__INSERT_AZHOP_BRANCH__', branchName))
     {%- endif %}
     {%- if 'windows' in vm and vm.windows == true %}
       adminPassword: adminPassword
@@ -170,7 +173,7 @@ resource {{ vmname | replace('-', '_') }}Vm 'Microsoft.Compute/virtualMachines@2
           publicKeys: [
             {
               path: '/home/${adminUser}/.ssh/authorized_keys'
-              keyData: adminSshPublicKey
+              keyData: adminSshPublicKeys
             }
           ]
         }
