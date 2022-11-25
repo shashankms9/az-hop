@@ -23,7 +23,7 @@ cd $azhop_root/deploy
 
 echo "* Logging in to Azure"
 az login -i
-deployment_name=azureDeploy
+deployment_name=azhop
 resource_group=$(curl -H Metadata:true "http://169.254.169.254/metadata/instance?api-version=2017-08-01" | jq -r .compute.resourceGroupName)
 
 echo "* Waiting for deployment to complete"

@@ -109,7 +109,7 @@ fi
 az group create --location $location --name $rg
 az deployment group create \
     --resource-group $rg \
-    --template-file azureDeploy.bicep \
+    --template-file azhop.bicep \
     --parameters @$parameter_file \
     | tee deploy.log
 
