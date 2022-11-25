@@ -94,6 +94,7 @@
     get_url:
       url: 'https://download.schedmd.com/slurm/slurm-{{slurm_version_short}}.tar.bz2'
       dest: /mnt/resource
+      timeout: 180
     when: slurm_rpms.stat.exists == False
 
   - name: download cc source code
@@ -150,6 +151,7 @@
     get_url:
       url: https://github.com/Azure/cyclecloud-slurm/releases/download/{{cyclecloud_slurm_release}}/{{ item }}
       dest: '{{homedir_mountpoint}}/slurm/rpms'
+      timeout: 180
     with_items:
       - 'slurm-{{slurm_version}}.el7.x86_64.rpm'
       - 'slurm-devel-{{slurm_version}}.el7.x86_64.rpm'
@@ -213,12 +215,15 @@
   get_url:
     url: https://raw.githubusercontent.com/Azure/cyclecloud-slurm/{{cyclecloud_slurm_release}}/specs/default/chef/site-cookbooks/slurm/files/default/{{ item }}
     dest: /opt/cycle/slurm
+    timeout: 180
   with_items:
     - clusterwrapper.py
     - cyclecloud_nodeinfo.sh
     - cyclecloud_slurm.py
     - cyclecloud_slurm.sh
     - cyclecloud_slurm_test.py
+    - get_acct_info.sh
+    - job_submit.lua
     - resume_fail_program.sh
     - resume_program.sh
     - return_to_idle.sh
@@ -226,50 +231,14 @@
     - slurmcc.py
     - slurmcc_test.py
     - slurmctld.override
+    - start_nodes.sh
     - suspend_program.sh
     - terminate_nodes.sh
 
-- name: check execute bit for cyclecloud_slurm.sh
-  file:
-    path: /opt/cycle/slurm/cyclecloud_slurm.sh
-    mode: 0755
-    owner: slurm
-    group: slurm
-
-- name: check execute bit for return_to_idle.sh
-  file:
-    path: /opt/cycle/slurm/return_to_idle.sh
-    mode: 0755
-    owner: slurm
-    group: slurm
-
-- name: check execute bit for terminate_nodes.sh
-  file:
-    path: /opt/cycle/slurm/terminate_nodes.sh
-    mode: 0755
-    owner: slurm
-    group: slurm
-
-- name: check execute bit for resume_fail_program.sh
-  file:
-    path: /opt/cycle/slurm/resume_fail_program.sh
-    mode: 0700
-    owner: slurm
-    group: slurm
-
-- name: check execute bit for resume_program.sh
-  file:
-    path: /opt/cycle/slurm/resume_program.sh
-    mode: 0700
-    owner: slurm
-    group: slurm
-
-- name: check execute bit for suspend_program.sh
-  file:
-    path: /opt/cycle/slurm/suspend_program.sh
-    mode: 0700
-    owner: slurm
-    group: slurm
+- name: check execute bit for /opt/cycle/slurm/*.sh
+  shell: |
+    chmod 755 /opt/cycle/slurm/*.sh
+    chown slurm:slurm /opt/cycle/slurm/*.sh
 
 - name: install CycleCloud repo
   shell: |
@@ -299,11 +268,13 @@
   get_url:
     url: https://github.com/Azure/cyclecloud-slurm/releases/download/{{cyclecloud_slurm_release}}/cyclecloud_api-8.1.0-py2.py3-none-any.whl
     dest: /opt/cycle/slurm
+    timeout: 180
 
 - name: download cc jobsubmit plugin
   get_url:
     url: https://github.com/Azure/cyclecloud-slurm/releases/download/{{cyclecloud_slurm_release}}/job_submit_cyclecloud_centos_{{slurm_version}}.so
     dest: /usr/lib64/slurm/job_submit_cyclecloud.so
+    timeout: 180
   when: not build_rpms
 
 - name: install cc job_submit plugin
