@@ -1,0 +1,185 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+    "handler": "Microsoft.Azure.CreateUIDef",
+    "version": "0.1.2-preview",
+    "parameters": {
+        "basics": [ 
+			{
+                "name": "azhopResourceGroup",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Azhop Resource Group",
+                "defaultValue": "",
+                "toolTip": "",
+                "constraints": {
+                    "required": true,
+                    "regex": "",
+                    "validationMessage": ""
+                },
+                "visible": true
+            },
+            {
+                "name": "adminUser",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Admin User",
+                "defaultValue": "",
+                "toolTip": "Admin user for the Virtual Machines.",
+                "constraints": {
+                    "required": true,
+                    "regex": "",
+                    "validationMessage": ""
+                },
+                "visible": true
+            },
+            {
+                "name": "homedirMountpoint",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Homedir Mountpoint",
+                "defaultValue": "/anfhome",
+                "toolTip": "Home directory mountpoint on the VMs.",
+                "constraints": {
+                    "required": false,
+                    "regex": "",
+                    "validationMessage": ""
+                },
+                "visible": true
+            },
+            {
+                "name": "adminSshPublicKey",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                    "password": "Admin Ssh Public Key",
+                    "confirmPassword": "Confirm password"
+                },
+                "toolTip": "SSH Public Key for the Virtual Machines.",
+                "constraints": {
+                    "required": true,
+                    "regex": "",
+                    "validationMessage": ""
+                },
+                "options": {
+                    "hideConfirmation": true
+                },
+                "visible": true
+            },
+            {
+                "name": "adminSshPrivateKey",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                    "password": "Admin Ssh Private Key",
+                    "confirmPassword": "Confirm password"
+                },
+                "toolTip": "SSH Private Key for the Virtual Machines.",
+                "constraints": {
+                    "required": true,
+                    "regex": "",
+                    "validationMessage": ""
+                },
+                "options": {
+                    "hideConfirmation": true
+                },
+                "visible": true
+            },
+            {
+                "name": "adminPassword",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                    "password": "Admin Password",
+                    "confirmPassword": "Confirm password"
+                },
+                "toolTip": "The Windows/Active Directory password.",
+                "constraints": {
+                    "required": true,
+                    "regex": "",
+                    "validationMessage": ""
+                },
+                "options": {
+                    "hideConfirmation": true
+                },
+                "visible": true
+            },
+            {
+                "name": "location",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Location",
+                "defaultValue": "",
+                "toolTip": "Azure region to use",
+                "constraints": {
+                    "required": true,
+                    "regex": "",
+                    "validationMessage": ""
+                },
+                "visible": true
+            },
+            {
+                "name": "slurmAccountingAdminUser",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Slurm Accounting Admin User",
+                "defaultValue": "sqladmin",
+                "toolTip": "Slurm accounting admin user",
+                "constraints": {
+                    "required": false,
+                    "regex": "",
+                    "validationMessage": ""
+                },
+                "visible": true
+            },
+            {
+                "name": "slurmAccountingAdminPassword",
+                "type": "Microsoft.Common.PasswordBox",
+                "label": {
+                    "password": "Slurm Accounting Admin Password",
+                    "confirmPassword": "Confirm password"
+                },
+                "toolTip": "Password for the Slurm accounting admin user",
+                "constraints": {
+                    "required": true,
+                    "regex": "",
+                    "validationMessage": ""
+                },
+                "options": {
+                    "hideConfirmation": true
+                },
+                "visible": true
+            },
+            {
+                "name": "branchName",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Branch Name",
+                "defaultValue": "main",
+                "toolTip": "Branch of the azhop repo to pull - Default to main",
+                "constraints": {
+                    "required": false,
+                    "regex": "",
+                    "validationMessage": ""
+                },
+                "visible": true
+            }
+		],
+        "steps": [
+            {
+                "name": "scheduler",
+                "label": "Scheduler",                
+                "subLabel": {
+                    "preValidation": "Configure your scheduler settings",
+                    "postValidation": "Done"
+                },
+                "bladeTitle": "Scheduler Settings",
+                "elements": [
+
+                ]
+            }
+        ],
+        "outputs": {
+            "azhopResourceGroup": "[basics('azhopResourceGroup')]",
+            "adminUser": "[basics('adminUser')]",
+            "homedirMountpoint": "[basics('homedirMountpoint')]",
+            "adminSshPublicKey": "[basics('adminSshPublicKey')]",
+            "adminSshPrivateKey": "[basics('adminSshPrivateKey')]",
+            "adminPassword": "[basics('adminPassword')]",
+            "location": "[basics('location')]",
+            "slurmAccountingAdminUser": "[basics('slurmAccountingAdminUser')]",
+            "slurmAccountingAdminPassword": "[basics('slurmAccountingAdminPassword')]",
+            "branchName": "[basics('branchName')]"
+        }
+    }
+}
