@@ -1,7 +1,6 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 import argparse
-import glob
 import os
 import yaml
 from jinja2 import Template
