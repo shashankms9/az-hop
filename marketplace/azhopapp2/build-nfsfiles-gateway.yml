@@ -1,6 +1,6 @@
 ---
 #admin_user: hpcadmin # parameter
-keyvault_readers: [891bf2b6-c197-404c-9675-7aaa8cd1423d,] # list of object IDs to grant read access
+keyvault_readers: [] # list of object IDs to grant read access
 
 lock_down_network:
   enforce: false
