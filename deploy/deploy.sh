@@ -17,6 +17,8 @@ fi
 user_type=$(az account show --query user.type -o tsv)
 if [ ${user_type} == "user" ]; then
   logged_user_objectId=$(az ad signed-in-user show --query id -o tsv)
+elif [ ! -z $DEPLOYMENT_SCRIPT ]; then
+    logged_user_objectId=$(az resource list -n $DEPLOYMENT_SCRIPT -g $rg --query [*].identity.userAssignedIdentities.*.principalId --out tsv)
 else
   export clientId=$(az account show --query user.name -o tsv)
   case "${clientId}" in
