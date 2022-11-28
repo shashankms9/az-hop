@@ -98,19 +98,6 @@
                 "visible": true
             },
             {
-                "name": "location",
-                "type": "Microsoft.Common.TextBox",
-                "label": "Location",
-                "defaultValue": "",
-                "toolTip": "Azure region to use",
-                "constraints": {
-                    "required": true,
-                    "regex": "",
-                    "validationMessage": ""
-                },
-                "visible": true
-            },
-            {
                 "name": "slurmAccountingAdminUser",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Slurm Accounting Admin User",

@@ -21,7 +21,7 @@ param adminSshPrivateKey string
 param adminPassword string
 
 @description('Azure region to use')
-param location string
+param location string = deployment().location
 
 @description('Slurm accounting admin user')
 param slurmAccountingAdminUser string = 'sqladmin'
