@@ -45,37 +45,26 @@
             },
             {
                 "name": "adminSshPublicKey",
-                "type": "Microsoft.Common.PasswordBox",
-                "label": {
-                    "password": "Admin Ssh Public Key",
-                    "confirmPassword": "Confirm password"
-                },
+                "type": "Microsoft.Common.TextBox",
+                "label": "Admin Ssh Public Key",
                 "toolTip": "SSH Public Key for the Virtual Machines.",
                 "constraints": {
                     "required": true,
                     "regex": "",
                     "validationMessage": ""
                 },
-                "options": {
-                    "hideConfirmation": true
-                },
                 "visible": true
             },
             {
                 "name": "adminSshPrivateKey",
-                "type": "Microsoft.Common.PasswordBox",
-                "label": {
-                    "password": "Admin Ssh Private Key",
-                    "confirmPassword": "Confirm password"
-                },
+                "type": "Microsoft.Common.TextBox",
+                "label": "Admin Ssh Private Key",
                 "toolTip": "SSH Private Key for the Virtual Machines.",
+                "multiLine": true,
                 "constraints": {
                     "required": true,
                     "regex": "",
                     "validationMessage": ""
-                },
-                "options": {
-                    "hideConfirmation": true
                 },
                 "visible": true
             },
@@ -163,7 +152,6 @@
             "adminSshPublicKey": "[basics('adminSshPublicKey')]",
             "adminSshPrivateKey": "[basics('adminSshPrivateKey')]",
             "adminPassword": "[basics('adminPassword')]",
-            "location": "[basics('location')]",
             "slurmAccountingAdminUser": "[basics('slurmAccountingAdminUser')]",
             "slurmAccountingAdminPassword": "[basics('slurmAccountingAdminPassword')]",
             "branchName": "[basics('branchName')]"

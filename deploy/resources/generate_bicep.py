@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 import os
@@ -19,6 +19,7 @@ if __name__ == "__main__":
 
     btpl = [ 
         "parameters.bicep.j2",
+        "keysandpasswords.bicep.j2",
         "nsg.bicep.j2",
         "network.bicep.j2",
         "asg.bicep.j2",

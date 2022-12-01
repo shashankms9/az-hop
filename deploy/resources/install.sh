@@ -4,6 +4,8 @@ set -o pipefail
 echo "* apt updating"
 apt update
 
+apt install -y python-is-python3
+
 echo "* Installing git"
 apt install -y git
 

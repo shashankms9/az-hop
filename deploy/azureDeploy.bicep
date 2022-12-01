@@ -8,17 +8,20 @@ param adminUser string
 @description('Home directory mountpoint on the VMs.')
 param homedirMountpoint string = '/anfhome'
 
+@description('Autogenerate passwords and SSH key pair.')
+param autogeneratePasswordsAndKeys bool = false
+
 @description('SSH Public Key for the Virtual Machines.')
 @secure()
-param adminSshPublicKey string
+param adminSshPublicKeyParam string = ''
 
 @description('SSH Private Key for the Virtual Machines.')
 @secure()
-param adminSshPrivateKey string
+param adminSshPrivateKeyParam string = ''
 
 @description('The Windows/Active Directory password.')
 @secure()
-param adminPassword string
+param adminPasswordParam string = ''
 
 @description('Azure region to use')
 param location string = deployment().location
@@ -28,7 +31,7 @@ param slurmAccountingAdminUser string = 'sqladmin'
 
 @description('Password for the Slurm accounting admin user')
 @secure()
-param slurmAccountingAdminPassword string
+param slurmAccountingAdminPasswordParam string = ''
 
 @description('Branch of the azhop repo to pull - Default to main')
 param branchName string = 'main'
@@ -44,12 +47,13 @@ module azhopModule './azhop.bicep' = {
   params: {
     adminUser: adminUser
     homedirMountpoint: homedirMountpoint
-    adminSshPublicKey: adminSshPublicKey
-    adminSshPrivateKey: adminSshPrivateKey
-    adminPassword: adminPassword
+    autogeneratePasswordsAndKeys: autogeneratePasswordsAndKeys
+    adminSshPublicKeyParam: adminSshPublicKeyParam
+    adminSshPrivateKeyParam: adminSshPrivateKeyParam
+    adminPasswordParam: adminPasswordParam
     location: location
     slurmAccountingAdminUser: slurmAccountingAdminUser
-    slurmAccountingAdminPassword: slurmAccountingAdminPassword
+    slurmAccountingAdminPasswordParam: slurmAccountingAdminPasswordParam
     branchName: branchName
   }
 }
