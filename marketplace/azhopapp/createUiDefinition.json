@@ -158,6 +158,7 @@
         ],
         "outputs": {
             "azhopResourceGroup": "[basics('azhopResourceGroup')]",
+            "autogeneratePasswordsAndKeys": "[basics('autogeneratePasswordsAndKeys')]",
             "adminUser": "[basics('adminUser')]",
             "homedirMountpoint": "[basics('homedirMountpoint')]",
             "adminSshPublicKeyParam": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('adminSshPublicKeyParam'))]",
