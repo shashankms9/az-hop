@@ -18,6 +18,17 @@
                 "visible": true
             },
             {
+				"name": "autogeneratePasswordsAndKeys",
+                "type": "Microsoft.Common.CheckBox",
+                "label": "Autogenerate keypair and passwords",
+                "defaultValue": true,
+                "toolTip": "Keypair and passwords can be retrieved from keyvault after deploying.",
+                "constraints": {
+                    "required": false,
+                    "validationMessage": ""
+                }
+            },
+            {
                 "name": "adminUser",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Admin User",
@@ -49,11 +60,11 @@
                 "label": "Admin Ssh Public Key",
                 "toolTip": "SSH Public Key for the Virtual Machines.",
                 "constraints": {
-                    "required": true,
+                    "required": "[basics('autogeneratePasswordsAndKeys')]",
                     "regex": "",
                     "validationMessage": ""
                 },
-                "visible": true
+                "visible": "[not(basics('autogeneratePasswordsAndKeys'))]"
             },
             {
                 "name": "adminSshPrivateKey",
@@ -62,11 +73,11 @@
                 "toolTip": "SSH Private Key for the Virtual Machines.",
                 "multiLine": true,
                 "constraints": {
-                    "required": true,
+                    "required": "[basics('autogeneratePasswordsAndKeys')]",
                     "regex": "",
                     "validationMessage": ""
                 },
-                "visible": true
+                "visible": "[not(basics('autogeneratePasswordsAndKeys'))]"
             },
             {
                 "name": "adminPassword",
@@ -77,14 +88,14 @@
                 },
                 "toolTip": "The Windows/Active Directory password.",
                 "constraints": {
-                    "required": true,
+                    "required": "[basics('autogeneratePasswordsAndKeys')]",
                     "regex": "",
                     "validationMessage": ""
                 },
                 "options": {
                     "hideConfirmation": true
                 },
-                "visible": true
+                "visible": "[not(basics('autogeneratePasswordsAndKeys'))]"
             },
             {
                 "name": "slurmAccountingAdminUser",
@@ -108,14 +119,14 @@
                 },
                 "toolTip": "Password for the Slurm accounting admin user",
                 "constraints": {
-                    "required": true,
+                    "required": "[basics('autogeneratePasswordsAndKeys')]",
                     "regex": "",
                     "validationMessage": ""
                 },
                 "options": {
                     "hideConfirmation": true
                 },
-                "visible": true
+                "visible": "[not(basics('autogeneratePasswordsAndKeys'))]"
             },
             {
                 "name": "branchName",
@@ -149,11 +160,11 @@
             "azhopResourceGroup": "[basics('azhopResourceGroup')]",
             "adminUser": "[basics('adminUser')]",
             "homedirMountpoint": "[basics('homedirMountpoint')]",
-            "adminSshPublicKey": "[basics('adminSshPublicKey')]",
-            "adminSshPrivateKey": "[basics('adminSshPrivateKey')]",
-            "adminPassword": "[basics('adminPassword')]",
+            "adminSshPublicKey": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('adminSshPublicKey'))]",
+            "adminSshPrivateKey": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('adminSshPrivateKey'))]",
+            "adminPassword": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('adminPassword'))]",
             "slurmAccountingAdminUser": "[basics('slurmAccountingAdminUser')]",
-            "slurmAccountingAdminPassword": "[basics('slurmAccountingAdminPassword')]",
+            "slurmAccountingAdminPassword": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('slurmAccountingAdminPassword'))]",
             "branchName": "[basics('branchName')]"
         }
     }
