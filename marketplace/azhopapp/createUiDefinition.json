@@ -55,7 +55,7 @@
                 "visible": true
             },
             {
-                "name": "adminSshPublicKey",
+                "name": "adminSshPublicKeyParam",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Admin Ssh Public Key",
                 "toolTip": "SSH Public Key for the Virtual Machines.",
@@ -67,7 +67,7 @@
                 "visible": "[not(basics('autogeneratePasswordsAndKeys'))]"
             },
             {
-                "name": "adminSshPrivateKey",
+                "name": "adminSshPrivateKeyParam",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Admin Ssh Private Key",
                 "toolTip": "SSH Private Key for the Virtual Machines.",
@@ -80,7 +80,7 @@
                 "visible": "[not(basics('autogeneratePasswordsAndKeys'))]"
             },
             {
-                "name": "adminPassword",
+                "name": "adminPasswordParam",
                 "type": "Microsoft.Common.PasswordBox",
                 "label": {
                     "password": "Admin Password",
@@ -111,7 +111,7 @@
                 "visible": true
             },
             {
-                "name": "slurmAccountingAdminPassword",
+                "name": "slurmAccountingAdminPasswordParam",
                 "type": "Microsoft.Common.PasswordBox",
                 "label": {
                     "password": "Slurm Accounting Admin Password",
@@ -160,11 +160,11 @@
             "azhopResourceGroup": "[basics('azhopResourceGroup')]",
             "adminUser": "[basics('adminUser')]",
             "homedirMountpoint": "[basics('homedirMountpoint')]",
-            "adminSshPublicKey": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('adminSshPublicKey'))]",
-            "adminSshPrivateKey": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('adminSshPrivateKey'))]",
-            "adminPassword": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('adminPassword'))]",
+            "adminSshPublicKeyParam": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('adminSshPublicKeyParam'))]",
+            "adminSshPrivateKeyParam": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('adminSshPrivateKeyParam'))]",
+            "adminPasswordParam": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('adminPasswordParam'))]",
             "slurmAccountingAdminUser": "[basics('slurmAccountingAdminUser')]",
-            "slurmAccountingAdminPassword": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('slurmAccountingAdminPassword'))]",
+            "slurmAccountingAdminPasswordParam": "[if(basics('autogeneratePasswordsAndKeys'),'',basics('slurmAccountingAdminPasswordParam'))]",
             "branchName": "[basics('branchName')]"
         }
     }
