@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+set -o pipefail
 
 yum install -y epel-release
 yum install -y libglvnd-devel pkgconfig
@@ -11,8 +13,9 @@ blacklist lbm-nouveau
 EOF
 
 echo "################### INSTALL CUDA"
-NVIDIA_DRIVER_VERSION=470.82.01
-CUDA_VERSION=11-4
+# There is a strong relationship between CUDA and NVIDIA_DRIVER versions. Make sure that the CUDA version is not pulling a more recent NVIDIA version
+NVIDIA_DRIVER_VERSION=510.73.08
+CUDA_VERSION=11-6
 yum-config-manager --add-repo https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-rhel7.repo
 yum clean all
 yum -y install nvidia-driver-latest-dkms-$NVIDIA_DRIVER_VERSION 
@@ -22,8 +25,8 @@ yum -y install https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x8
 yum -y install https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/nvidia-settings-$NVIDIA_DRIVER_VERSION-1.el7.x86_64.rpm
 yum -y install cuda-drivers-$NVIDIA_DRIVER_VERSION
 
-echo "################### INSTALL NVIDIA GRID DRIVERS"
 echo "################### UNLOAD NVIDIA MODULES"
+set +e
 systemctl stop nv_peer_mem.service
 systemctl stop nvidia-fabricmanager
 rmmod gdrdrv
@@ -34,11 +37,13 @@ echo "Kill process $nv_hostengine_pid"
 sudo kill -9 $nv_hostengine_pid
 lsof /dev/nvidia0
 rmmod nvidia_drm nvidia_modeset nvidia
+set -e
 
+echo "################### INSTALL NVIDIA GRID DRIVERS"
 init 3
 # Use the direct link which contains the clear version number
 # Check which latest version to use from https://github.com/Azure/azhpc-extensions/blob/master/NvidiaGPU/resources.json
-wget -O NVIDIA-Linux-x86_64-grid.run https://download.microsoft.com/download/a/3/c/a3c078a0-e182-4b61-ac9b-ac011dc6ccf4/NVIDIA-Linux-x86_64-$NVIDIA_DRIVER_VERSION-grid-azure.run
+wget -O NVIDIA-Linux-x86_64-grid.run https://download.microsoft.com/download/6/2/5/625e22a0-34ea-4d03-8738-a639acebc15e/NVIDIA-Linux-x86_64-$NVIDIA_DRIVER_VERSION-grid-azure.run
 chmod +x NVIDIA-Linux-x86_64-grid.run
 sudo ./NVIDIA-Linux-x86_64-grid.run -s || exit 1
 # Answers are: yes, yes, yes
@@ -51,24 +56,29 @@ EOF
 sed -i '/FeatureType=0/d' /etc/nvidia/gridd.conf
 
 echo "Test if nvidia-smi is working"
-set -e
 nvidia-smi
-set +e
 
 echo "################### INSTALL VirtualGL / VNC"
+VGL_VERSION=3.0.2-20221020
 yum groupinstall -y "X Window system"
 yum groupinstall -y xfce
 yum install -y https://netix.dl.sourceforge.net/project/turbovnc/2.2.5/turbovnc-2.2.5.x86_64.rpm
 yum install -y https://cbs.centos.org/kojifiles/packages/python-websockify/0.8.0/13.el7/noarch/python2-websockify-0.8.0-13.el7.noarch.rpm
 
-wget --no-check-certificate "https://virtualgl.com/pmwiki/uploads/Downloads/VirtualGL.repo" -O /etc/yum.repos.d/VirtualGL.repo
+# https://virtualgl.org/Downloads/YUM
+wget --no-check-certificate "https://virtualgl.org/pmwiki/uploads/Downloads/VirtualGL.repo" -O /etc/yum.repos.d/VirtualGL.repo
+# Excluse Beta releases
+echo "exclude=VirtualGL-*.*.9[0-9]-*" >> /etc/yum.repos.d/VirtualGL.repo
+yum --showduplicates list VirtualGL
 
-yum install -y VirtualGL turbojpeg xorg-x11-apps
+yum install -y VirtualGL-$VGL_VERSION.x86_64 turbojpeg xorg-x11-apps
 /usr/bin/vglserver_config -config +s +f -t
 
+set +e
 systemctl disable firstboot-graphical
 systemctl set-default graphical.target
 systemctl isolate graphical.target
+set -e
 
 cat <<EOF >/etc/rc.d/rc3.d/busidupdate.sh
 #!/bin/bash
