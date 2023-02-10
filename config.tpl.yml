@@ -334,6 +334,13 @@ images:
     hyper_v: V2
     os_type: Linux
     version: 18.04
+  - name: azhop-compute-ubuntu-2004
+    publisher: azhpc
+    offer: azhop-compute
+    sku: ubuntu-2004
+    hyper_v: V2
+    os_type: Linux
+    version: 20.04
   - name: azhop-win10
     publisher: azhop
     offer: Windows-10
